@@ -42,7 +42,6 @@ typedef struct ArdPipe {
 
 /*
   Nodes for a singly linked list of pipes.
-
  */
 
 typedef struct PipeNode {
