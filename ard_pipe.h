@@ -59,4 +59,26 @@ typedef struct PipeList {
     PipeNode *tail;  /* Final node in the list, NULL if empty */
 } PipeList;
 
+
+/*
+  Add a pipe to a pipe list - if this pipe is already within the pipe
+  list then it will just be ignored. We do not need duplicated pipes
+  within a list.
+
+  This will also check if a pipe has an input which was previously
+  defined to be an output, or vice versa. If this is the case nothing
+  will be done and an error code of the value 1 will be returned. This
+  function returns 0 upon success.
+ */
+
+int pipe_list_add(PipeList *list, ArdPipe pipe);
+
+
+/*
+  Remove a connection from a pipe list, if it doesn't occur in the
+  pipe list then we just ignore it.
+ */
+
+void pipe_list_remove(PipeList *list, ArdPipe pipe);
+
 #endif ARD_PIPE_H
