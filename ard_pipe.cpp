@@ -106,3 +106,42 @@ int pipe_list_add(PipeList *list, ArdPipe pipe)
 	return 1;
     }
 }
+
+
+void pipe_list_remove(PipeList *list, ArdPipe pipe)
+{
+    if (NULL == list->first) {
+	/* List is empty, nothing to remove */
+	return;
+    }
+
+    PipeList *cur_node = list->first;
+    PipeList *prev_node = NULL;
+
+    /* Search list for our pipe to remove it */
+    while (NULL != cur_node) {
+	ArdPipe cur_pipe = cur_node->pipe;
+
+	if (cur_pipe == pipe) {
+	    /* Found the pipe in the list! Remove it... */
+	    if (NULL != prev_node) {
+		prev_node->next = cur_pipe->next;
+	    }
+
+	    /* Adjust first and second if necessary */
+	    if (cur_node == list->first) {
+		list->first = list->first->next;
+	    }
+
+	    if (cur_node == list->tail) {
+		list->tail = prev_node;
+	    }
+
+	    free_memory(cur_node);
+	    return;
+	}
+
+	prev_node = cur_node;
+	cur_node = cur_node->next;
+    }
+}
