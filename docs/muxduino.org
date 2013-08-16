@@ -35,17 +35,17 @@
 
 ** Structures
    Using this API you will encounter one main structure - the
-   ArdPipe. It looks something like this:
+   MuxPipe. It looks something like this:
 
    #+BEGIN_SRC c
-     typedef struct ArdPipe {
+     typedef struct MuxPipe {
          int in_pin;
          int out_pin;
          int channel;
-     } ArdPipe;
+     } MuxPipe;
    #+END_SRC
 
-   The ArdPipe structure just represents a connection between an input
+   The MuxPipe structure just represents a connection between an input
    pin, and an output pin on a given channel. These are used to
    register connections with MuxDuino, and to remove them if
    necessary.
@@ -56,13 +56,13 @@
    following function:
 
    #+BEGIN_SRC c
-     int register_pipe(ArdPipe pipe);
+     int register_pipe(MuxPipe pipe);
    #+END_SRC
 
    Let's say that *pipe* looks something like this:
 
    #+BEGIN_SRC c
-     ArdPipe pipe;
+     MuxPipe pipe;
 
      pipe.in_pin = 7;
      pipe.out_pin = 9;
@@ -93,7 +93,7 @@
    done via the following function:
 
    #+BEGIN_SRC c
-     void remove_pipe(ArdPipe pipe);
+     void remove_pipe(MuxPipe pipe);
    #+END_SRC
 
    If the pipe has previously been registered with MuxDuino it will be
