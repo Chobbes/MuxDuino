@@ -118,7 +118,7 @@
    This sets the current channel for the output given by *out_pin* to
    *new_channel*. If there are no inputs on *new_channel* the channel
    will still change, and no further updates will be made to the
-   output.
+   output, unless an input is added to that channel later.
 
    If *out_pin* has not previously been registered as an output then
    this function will do nothing.
@@ -137,3 +137,55 @@
    kind of loop.
 
 * Implementation
+  This section notes some of the details on how the current
+  implementation of MuxDuino works. There will be some discussion
+  about each of the functions and the data structures which they use.
+
+** Data Structures
+   Currently nearly everything will be a linked list for a couple of
+   reasons. First of all we want to be able to add and remove
+   connections arbitrarily, and this is something that linked lists
+   can do. The main operation for this library is mux_update(), and
+   that's what we expect to be calling the most. What mux_update() has
+   to do is cycle through all of the outputs and generate the
+   appropriate signal for them - this is very easy to do if all of the
+   outputs are part of a linked list. Dynamic memory allocations are a
+   concern on embedded platforms, but the idea is that you would set
+   your network up with one big allocation at the beginning and
+   usually not change it (at least not very frequently). Ultimately
+   this makes it far easier to create a bunch of arbitrary
+   connections, so we won't be too concerned about using dynamic
+   memory.
+
+*** Output List
+    The top level data structure which MuxDuino deals with is the
+    output list. This list contains structures like the following:
+
+    #+BEGIN_SRC c
+      typedef struct ArdOutput {
+          int out_pin;
+      
+          int channel_num;
+          ArdChannel *current_channel;
+      
+          ChannelList channels;
+      } ArdOutput;
+    #+END_SRC
+
+    Where *out_pin* is the output pin, *current_channel* is a pointer
+    to the currently selected channel, and *channel_num* is the
+    integer number for the currently selected channel.
+
+*** Channels
+    And *ArdChannel* structure will look like:
+
+    #+BEGIN_SRC c
+      typedef struct ArdChannel {
+          int channel;
+          InputList inputs;
+      } ArdChannel;
+    #+END_SRC
+
+    Where *channel* is the number for the channel, and *inputs* is a
+    linked list of input pin numbers that are registered in this
+    channel for this output.
