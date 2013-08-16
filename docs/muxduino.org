@@ -34,4 +34,58 @@
 * Interface
 
 ** Structures
-   Using this API you will encounter one main structure - the ArdPipe.
+   Using this API you will encounter one main structure - the
+   ArdPipe. It looks something like this:
+
+   #+BEGIN_SRC c
+     typedef struct ArdPipe {
+         int in_pin;
+         int out_pin;
+         int channel;
+     } ArdPipe;
+   #+END_SRC
+
+   The ArdPipe structure just represents a connection between an input
+   pin, and an output pin on a given channel. These are used to
+   register connections with MuxDuino, and to remove them if
+   necessary.
+
+** Registering Pipes with MuxDuino
+   In order to use MuxDuino in a project we need to tell it which
+   inputs map to which outputs! In order to do this we use the
+   following function:
+
+   #+BEGIN_SRC c
+     int register_pipe(ArdPipe pipe);
+   #+END_SRC
+
+   Let's say that *pipe* looks something like this:
+
+   #+BEGIN_SRC c
+     ArdPipe pipe;
+
+     pipe.in_pin = 7;
+     pipe.out_pin = 9;
+     pipe.channel = 0;
+   #+END_SRC
+
+   All this function call does is tell MuxDuino that we want to send
+   the value we read off of pin 7 to the output pin 9 whenever the
+   channel for output pin 9 is set to 0. If there are other inputs on
+   channel 0 for pin 9 input 7 will be logically OR'd with the rest of
+   the inputs in channel 0 to produce the output.
+
+   The channel for the output will be set to the channel of the first
+   registered pipe with that output.
+
+   This function will return 0 on success, and 1 otherwise. The
+   function will fail, and return 1, if you try to register an input
+   that has already been defined as an output, an output that has
+   already been defined as an input, or a pipe with identical input
+   and output pins. Also note that this function may allocate some
+   memory.
+
+* TODO Stuff to add to notes.
+  remove_pipe()
+  set_output_channel()
+  mux_update()
