@@ -82,10 +82,53 @@
    function will fail, and return 1, if you try to register an input
    that has already been defined as an output, an output that has
    already been defined as an input, or a pipe with identical input
-   and output pins. Also note that this function may allocate some
-   memory.
+   and output pins. This function will set the pin mode for the pins
+   as designated. Also note that this function may allocate some
+   memory. Duplicated pipes don't change anything.
 
-* TODO Stuff to add to notes.
-  remove_pipe()
-  set_output_channel()
-  mux_update()
+** Removing a Pipe
+   It's possible that you may want to remove a pipe from the MuxDuino
+   network in order to stop the signals from being passed through, or
+   to reconfigure an input to be an output and vice versa. This is
+   done via the following function:
+
+   #+BEGIN_SRC c
+     void remove_pipe(ArdPipe pipe);
+   #+END_SRC
+
+   If the pipe has previously been registered with MuxDuino it will be
+   removed and the pins may be added to either an input or an output
+   in a channel -- you can change the type of pin. If the pipe was
+   never registered then it doesn't need to be removed, so the
+   function does not change anything.
+
+   The channel of the output will not change if all of the pipes in
+   that channel are removed. It will remain the same.
+
+** Setting Output Channels
+   You may add several different channels to any given output. An
+   output starts with the channel of the pipe that was first
+   registered with that output, however you may want to adjust the
+   channel using the following:
+
+   #+BEGIN_SRC c
+     void set_output_channel(int out_pin, int new_channel);
+   #+END_SRC
+
+   This sets the current channel for the output given by *out_pin* to
+   *new_channel*. If there are no inputs on *new_channel* the channel
+   will still change, and no further updates will be made to the
+   output.
+
+** Updating Pins
+   The meat and potatoes function of MuxDuino is:
+
+   #+BEGIN_SRC c
+     void mux_update();
+   #+END_SRC
+
+   This function cycles through the inputs in the channels, reading
+   each of them in, and then produces the output for each of them and
+   writes the output to the output pins. This must be called each time
+   the outputs are to be updated, so it's best to put this in some
+   kind of loop.
