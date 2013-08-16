@@ -120,6 +120,9 @@
    will still change, and no further updates will be made to the
    output.
 
+   If *out_pin* has not previously been registered as an output then
+   this function will do nothing.
+
 ** Updating Pins
    The meat and potatoes function of MuxDuino is:
 
@@ -132,3 +135,5 @@
    writes the output to the output pins. This must be called each time
    the outputs are to be updated, so it's best to put this in some
    kind of loop.
+
+* Implementation
