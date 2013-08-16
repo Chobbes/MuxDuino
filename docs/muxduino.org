@@ -162,14 +162,14 @@
     output list. This list contains structures like the following:
 
     #+BEGIN_SRC c
-      typedef struct ArdOutput {
+      typedef struct MuxOutput {
           int out_pin;
       
           int channel_num;
           ArdChannel *current_channel;
       
           ChannelList channels;
-      } ArdOutput;
+      } MuxOutput;
     #+END_SRC
 
     Where *out_pin* is the output pin, *current_channel* is a pointer
@@ -198,7 +198,7 @@
    if the output pin of the pipe we are adding has ever been used as
    an input in any channel across any output.
 
-   First we find our create the ArdOutput for our output pin. Then we
+   First we find our create the MuxOutput for our output pin. Then we
    search the channel list to see if the channel already exists. If
    not, create the channel, if so search the channel and see if the
    input is already in the input list. If the input is already in the
@@ -217,7 +217,7 @@
 ** Pipe Removal
    First we scan the output list for the output of the pipe we want to
    remove. If it's not there we don't do anything, but otherwise we
-   need to then check the *ArdOutput* structure for the channel - if
+   need to then check the *MuxOutput* structure for the channel - if
    it's not there we can again ignore it. Otherwise we need to check
    for the input in the channel's input list. If it's not there we
    just return...
@@ -225,7 +225,7 @@
    However, if we find the input this means that the pipe was
    previously registered and we have to remove it. This removal is
    complicated by the fact that this may be the last input in a
-   channel, and that channel may be the last channel in the ArdOutput
+   channel, and that channel may be the last channel in the MuxOutput
    structure as well. We want to clean these things up, and we don't
    want any memory leaks.
 
