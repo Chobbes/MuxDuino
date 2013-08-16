@@ -212,6 +212,8 @@
    we need to adjust for this -- the current channel pointer may be
    NULL otherwise.
 
+   Note that we must also set th pin modes!
+
 ** Pipe Removal
    First we scan the output list for the output of the pipe we want to
    remove. If it's not there we don't do anything, but otherwise we
@@ -234,3 +236,18 @@
 
    If after doing this the channel list is now empty then we must free
    the entire output, and remove it from the outputs list.
+
+** Setting Output Channels
+   We start by scanning the output list for the output, if it's not
+   there we give up. If the output is in the output list then we set
+   *channel_num* on it to the desired channel. We then try to find the
+   channel in the channels list -- if it's there we update the current
+   channel pointer with it, otherwise we have it set to NULL.
+
+** Performing an Update
+   In order to perform an update we iterate over each output in the
+   output list. If the output's current channel does not exist (i.e.,
+   has no inputs), then we do not do anything for that
+   output. Otherwise we read the inputs in the current channel, and if
+   one of the inputs is HIGH then we write HIGH to the output pin -
+   otherwise we write LOW.
