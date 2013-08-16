@@ -1,0 +1,37 @@
+#+TITLE: MuxDuino Notes
+#+AUTHOR: Calvin Beck
+#+OPTIONS: ^:{}
+
+* Introduction
+  The purpose of the MuxDuino library is to provide an easy to use API
+  for turning an Arduino into a little fancy pants networking hub.
+
+  The idea is that you can make a connection between two pins on the
+  Arduino; one of these pins will serve as an input, while the other
+  pin serves as an output. Each connection will also have a number
+  representing the 'channel' attached to it, this can be any integer.
+
+  Once you register all of the connections and channels with MuxDuino
+  a single function call may be used to read through all of the input
+  pins in order to generate the appropriate outputs for the respective
+  output pins. For instance if you were to have a pipe from the input
+  pin 12 to the output pin 13 each time you tell MuxDuino to do an
+  update it will read the digital value from pin 12 (either HIGH or
+  LOW), and then write that value to pin 13. Using this you are able
+  to connect multiple components through an Arduino and easily change
+  the topology of the network without having to rewire everything!
+
+  Each output is associated with a set of channels. Only one of these
+  channels may be activated at any given time. When a channel is
+  activated all of the inputs on that channel are logically OR'd
+  together in order to produce the output. That is to say that if any
+  of the inputs on that channel are HIGH the output will receive a
+  value of HIGH. The output will only receive a value of LOW when none
+  of the inputs on a channel are HIGH. The channels are disjoint for
+  each output. If output 1 and output 2 both have a channel 7, then
+  the channel 7's may have a completely separate set of inputs.
+
+* Interface
+
+** Structures
+   Using this API you will encounter one main structure - the ArdPipe.
