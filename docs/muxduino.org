@@ -189,3 +189,48 @@
     Where *channel* is the number for the channel, and *inputs* is a
     linked list of input pin numbers that are registered in this
     channel for this output.
+
+** Pipe Registration
+   In order to register a pipe we must go through the list of outputs
+   to determine if the output pin has already been used (in which case
+   we do not need to create a new entry in the output list), or if the
+   input has previously been used as an output. We also need to check
+   if the output pin of the pipe we are adding has ever been used as
+   an input in any channel across any output.
+
+   First we find our create the ArdOutput for our output pin. Then we
+   search the channel list to see if the channel already exists. If
+   not, create the channel, if so search the channel and see if the
+   input is already in the input list. If the input is already in the
+   channel's input list do nothing, otherwise we need to add the input
+   to the list.
+
+   If this is the only pipe for this output then we need to set the
+   channel for the output to the pipe's channel. If this is not the
+   only pipe registered with this output, and we have the current
+   channel set to this one, and the channel did not previously exist
+   we need to adjust for this -- the current channel pointer may be
+   NULL otherwise.
+
+** Pipe Removal
+   First we scan the output list for the output of the pipe we want to
+   remove. If it's not there we don't do anything, but otherwise we
+   need to then check the *ArdOutput* structure for the channel - if
+   it's not there we can again ignore it. Otherwise we need to check
+   for the input in the channel's input list. If it's not there we
+   just return...
+
+   However, if we find the input this means that the pipe was
+   previously registered and we have to remove it. This removal is
+   complicated by the fact that this may be the last input in a
+   channel, and that channel may be the last channel in the ArdOutput
+   structure as well. We want to clean these things up, and we don't
+   want any memory leaks.
+
+   If the input is the last input in the channel then we need to free
+   the channel and remove it from the channel list. If this is the
+   currently selected channel then we will need to make sure we set
+   the current channel pointer to NULL as well.
+
+   If after doing this the channel list is now empty then we must free
+   the entire output, and remove it from the outputs list.
