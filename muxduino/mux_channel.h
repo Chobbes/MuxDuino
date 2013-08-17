@@ -47,5 +47,13 @@ typedef struct MuxChannelNode {
 } MuxChannelNode;
 
 
+/*
+  List of channels. Head and tail will be NULL if empty, and the head will be
+ */
+
+typedef struct MuxChannelList {
+    MuxChannelNode *head;
+    MuxChannelNode *tail;
+} MuxChannelList;
 
 #endif
