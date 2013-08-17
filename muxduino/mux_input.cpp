@@ -39,7 +39,7 @@ static MuxInputNode * create_input_node(int in_pin)
 
 
 /* Check if the in_pin already occurs in the list */
-static bool input_in_list(MuxInputList *list, int in_pin)
+bool input_in_list(MuxInputList *list, int in_pin)
 {
     MuxInputNode *node = list->head;
 
@@ -59,7 +59,7 @@ void mux_input_list_add(MuxInputList *list, int in_pin)
 {
     if (NULL == list->head) {
         /* List is empty... */
-        MuxInputNode *node = create_input_node(pipe);
+        MuxInputNode *node = create_input_node(in_pin);
 
 	list->head = node;
 	list->tail = node;
@@ -82,7 +82,7 @@ void mux_input_list_remove(MuxInputList *list, int in_pin)
 
     /* Search list for our in_pin to remove it */
     while (NULL != current_node) {
-	int current_in_pin = current_node->pipe;
+	int current_in_pin = current_node->in_pin;
 
 	if (current_in_pipe == in_pin) {
 	    /* Found the input in the list! Remove it... */
