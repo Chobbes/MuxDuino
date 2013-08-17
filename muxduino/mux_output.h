@@ -25,6 +25,9 @@
 #ifndef MUX_OUTPUT_H
 #define MUX_OUTPUT_H
 
+#include "mux_channel.h"
+
+
 /*
   Output structure. This is used to tie an output pin (out_pin) to a
   collection of channels which consist of various inputs.
@@ -34,9 +37,23 @@
 
 typedef struct MuxOutputNode {
     int out_pin;
+
+    int channel_num;
+    MuxChannelNode *current_channel;
+
     MuxChannelList channels;
 
     struct MuxOutputNode *next;
 } MuxOutputNode;
+
+
+/*
+  List of outputs. Head and tail will be NULL if empty, and the head will be
+ */
+
+typedef struct MuxOutputList {
+    MuxOutputNode *head;
+    MuxOutputNode *tail;
+} MuxOutputList;
 
 #endif
