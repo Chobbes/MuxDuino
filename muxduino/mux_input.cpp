@@ -27,7 +27,7 @@
 #include "mem_alloc.h"
 
 
-/* Allocate an input node from a MuxPipe */
+/* Allocate an input node for a given input pin */
 static MuxInputNode * create_input_node(int in_pin)
 {
     MuxInputNode *node = allocate_memory(sizeof(MuxInputNode));
