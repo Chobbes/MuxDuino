@@ -166,7 +166,7 @@
           int out_pin;
       
           int channel_num;
-          MuxChannel *current_channel;
+          MuxChannelNode *current_channel;
       
           ChannelList channels;
       } MuxOutput;
@@ -177,18 +177,20 @@
     integer number for the currently selected channel.
 
 *** Channels
-    And *MuxChannel* structure will look like:
+    And *MuxChannelNode* structure will look like:
 
     #+BEGIN_SRC c
-      typedef struct MuxChannel {
+      typedef struct MuxChannelNode {
           int channel;
           MuxInputList inputs;
-      } MuxChannel;
+      
+          MuxChannelNode *next;
+      } MuxChannelNode;
     #+END_SRC
 
     Where *channel* is the number for the channel, and *inputs* is a
     linked list of input pin numbers that are registered in this
-    channel for this output.
+    channel for this output. This forms a linked list of channels.
 
 ** Pipe Registration
    In order to register a pipe we must go through the list of outputs
