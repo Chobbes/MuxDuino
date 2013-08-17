@@ -87,7 +87,7 @@ void mux_input_list_remove(MuxInputList *list, int in_pin)
 	if (current_in_pipe == in_pin) {
 	    /* Found the input in the list! Remove it... */
 	    if (NULL != previous_node) {
-		previous_node->next = current_pipe->next;
+		previous_node->next = current_node->next;
 	    }
 
 	    /* Adjust head and tail if necessary */
