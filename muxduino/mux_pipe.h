@@ -39,4 +39,4 @@ typedef struct MuxPipe {
     int out_pin;
 } MuxPipe;
 
-#endif MUX_PIPE_H
+#endif
