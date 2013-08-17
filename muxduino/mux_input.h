@@ -49,6 +49,20 @@ typedef struct MuxInputList {
 
 /*
   Arguments:
+      list: The input list we are checking for the input pin.
+
+      in_pin: The input pin.
+
+  Check if the input pin is in the list. Returns true if it is, and
+  false otherwise.
+
+ */
+
+bool input_in_list(MuxInputList *list, int in_pin)
+
+
+/*
+  Arguments:
       list: The input list that we are adding to.
 
       in_pin: The input pin we want to add.
