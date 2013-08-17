@@ -35,8 +35,8 @@ static MuxChannelNode * create_channel_node(MuxPipe pipe)
     node->channel = pipe.channel;
 
     /* Set up the inputs list */
-    node->inputs->head = NULL;
-    node->inputs->tail = NULL;
+    node->inputs.head = NULL;
+    node->inputs.tail = NULL;
     mux_input_list_add(&node->inputs, pipe.in_pin);
 
     node->next = NULL;
