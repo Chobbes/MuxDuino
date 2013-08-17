@@ -166,7 +166,7 @@
           int out_pin;
       
           int channel_num;
-          ArdChannel *current_channel;
+          MuxChannel *current_channel;
       
           ChannelList channels;
       } MuxOutput;
@@ -177,13 +177,13 @@
     integer number for the currently selected channel.
 
 *** Channels
-    And *ArdChannel* structure will look like:
+    And *MuxChannel* structure will look like:
 
     #+BEGIN_SRC c
-      typedef struct ArdChannel {
+      typedef struct MuxChannel {
           int channel;
-          InputList inputs;
-      } ArdChannel;
+          MuxInputList inputs;
+      } MuxChannel;
     #+END_SRC
 
     Where *channel* is the number for the channel, and *inputs* is a
