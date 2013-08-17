@@ -75,4 +75,4 @@ void mux_input_list_add(MuxInputList *list, int in_pin)
 void mux_input_list_remove(MuxInputList *list, int in_pin)
 
 
-#endif MUX_INPUT_H
+#endif
