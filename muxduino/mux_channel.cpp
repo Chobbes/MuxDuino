@@ -27,17 +27,17 @@
 #include "mem_alloc.h"
 
 
-/* Allocate an input node for a given input pin */
+/* Allocate an input node for a given a pipe */
 static MuxChannelNode * create_channel_node(MuxPipe pipe)
 {
     MuxChannelNode *node = allocate_memory(sizeof(MuxChannelNode));
 
-    node->channel = pipe->channel;
+    node->channel = pipe.channel;
 
     /* Set up the inputs list */
     node->inputs->head = NULL;
     node->inputs->tail = NULL;
-    mux_input_list_add(&node->inputs, pipe->in_pin);
+    mux_input_list_add(&node->inputs, pipe.in_pin);
 
     node->next = NULL;
 
