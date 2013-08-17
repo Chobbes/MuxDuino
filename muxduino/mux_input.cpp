@@ -22,7 +22,6 @@
 
 */
 
-#include "mux_pipe.h"
 #include "mux_input.h"
 #include "mem_alloc.h"
 
