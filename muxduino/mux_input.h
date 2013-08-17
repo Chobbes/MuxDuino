@@ -46,4 +46,33 @@ typedef struct MuxInputList {
     MuxInputNode *tail;  /* Last node in list, NULL if empty */
 } MuxInputList;
 
+
+/*
+  Arguments:
+      list: The input list that we are adding to.
+
+      in_pin: The input pin we want to add.
+
+  Checks if the input pin is in the list already, and adds it if it is
+  not (no sense storing duplicates).
+
+ */
+
+void mux_input_list_add(MuxInputList *list, int in_pin)
+
+
+/*
+  Arguments:
+      list: The input list that we want to remove an input from.
+
+      in_pin: The input pin we want to remove from the list.
+
+  Checks if the input is in the list and removes it if it is.
+
+ */
+
+
+void mux_input_list_remove(MuxInputList *list, int in_pin)
+
+
 #endif MUX_INPUT_H
