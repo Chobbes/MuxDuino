@@ -45,7 +45,7 @@ static MuxChannelNode * create_channel_node(MuxPipe pipe)
 }
 
 
-/* Check if the in_pin already occurs in the list */
+/* Check if the channel / in_pin already occurs in the list */
 bool channel_in_list(MuxChannelList *list, MuxPipe pipe)
 {
     MuxChannelNode *node = list->head;
