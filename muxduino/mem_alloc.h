@@ -31,6 +31,8 @@
   basically just a wrapper for malloc() and free().
  */
 
+#include <stdlib.h>
+
 
 /*
   Function for allocating a chunk of memory, returns a pointer to
