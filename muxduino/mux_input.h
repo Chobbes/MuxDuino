@@ -53,12 +53,12 @@ typedef struct MuxInputList {
 
       in_pin: The input pin.
 
-  Check if the input pin is in the list. Returns true if it is, and
-  false otherwise.
+  Returns the node with the input pin, or NULL if the node is not in
+  the list.
 
  */
 
-bool input_in_list(MuxInputList *list, int in_pin)
+MuxInputNode * find_input_node(MuxInputList *list, int in_pin);
 
 
 /*
@@ -72,7 +72,7 @@ bool input_in_list(MuxInputList *list, int in_pin)
 
  */
 
-void mux_input_list_add(MuxInputList *list, int in_pin)
+void mux_input_list_add(MuxInputList *list, int in_pin);
 
 
 /*
@@ -86,7 +86,7 @@ void mux_input_list_add(MuxInputList *list, int in_pin)
  */
 
 
-void mux_input_list_remove(MuxInputList *list, int in_pin)
+void mux_input_list_remove(MuxInputList *list, int in_pin);
 
 
 #endif
