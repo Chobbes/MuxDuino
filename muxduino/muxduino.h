@@ -40,6 +40,11 @@
   allocate some memory. This will also set the pin modes for the
   in_pin and out_pin of the pipe.
 
+  Note that this will return 0 if things went successfully, and
+  non-zero otherwise. The pin modes will not be set on failure. This
+  function may fail if you try to register a pipe with an input that
+  was previously registered as an output, or vice versa.
+
  */
 
 int register_pipe(MuxPipe pipe);
@@ -53,6 +58,7 @@ int register_pipe(MuxPipe pipe);
   does not exist).
 
  */
+
 void unregister_pipe(MuxPipe pipe);
 
 
