@@ -29,7 +29,7 @@
   Interface to the MuxDuino Arduino multiplexing library.
  */
 
-#includo "mux_pipe.h"
+#include "mux_pipe.h"
 
 
 /*
