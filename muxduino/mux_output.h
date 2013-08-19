@@ -57,4 +57,49 @@ typedef struct MuxOutputList {
     MuxOutputNode *tail;
 } MuxOutputList;
 
+
+/*
+  Arguments:
+      list: The list that we want to search.
+
+      out_pin: The output pin number that we are searching for.
+
+  Returns a pointer to the output node with the out_pin, or NULL if it
+  is not found in the list.
+
+ */
+
+MuxOutputNode * find_output_node(MuxOutputList *list, int out_pin);
+
+
+/*
+  Arguments:
+      list: The list that we are adding to.
+
+      pipe: The pipe that we want to add.
+
+  Adds the pipe to the outputs, may allocate memory. Will not do
+  anything if the output, channel, and input are already in the output
+  list.
+
+ */
+
+void mux_output_list_add(MuxOutputList *list, MuxPipe pipe);
+
+
+/*
+  Arguments:
+      list: The list that we are removing from.
+
+      pipe: The pipe that we want to remove.
+
+  Removes the appropriate pipe from the list. May remove an output
+  node if it has no remaining channels. This also readjusts the
+  current_channel pointer if the current channel disappears to be
+  NULL.
+
+ */
+
+void mux_output_list_remove(MuxChannelList *list, MuxPipe pipe);
+
 #endif
