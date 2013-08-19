@@ -29,28 +29,45 @@
   Interface to the MuxDuino Arduino multiplexing library.
  */
 
-#includo "ard_pipe.h"
+#includo "mux_pipe.h"
 
 
 /*
+  Arguments:
+      pipe: The pipe we want to register with MuxDuino.
+
   Registers a pipe with the main pipe list for connections. This will
   allocate some memory.
  */
-int register_pipe(ArdPipe pipe);
+int register_pipe(MuxPipe pipe);
 
 
 /*
+  Arguments:
+      pipe: The pipe we want MuxDuino to forget about.
+
   Removes a pipe from the main pipe list (does nothing if the pipe
   does not exist).
  */
-void unregister_pipe(ArdPipe pipe);
+void unregister_pipe(MuxPipe pipe);
 
+
+/*
+  Arguments:
+      out_pin: The output that we want to change the channel of.
+
+      new_channel: The new channel that we want to set.
+
+  Changes the currently selected channel for the output.
+ */
+
+void set_output_channel(int out_pin, int new_channel);
 
 /*
   This function loops through all of the pipes, and does the
   appropriate reads and writes.
  */
 
-void mux_transmit();
+void mux_update();
 
 #endif
