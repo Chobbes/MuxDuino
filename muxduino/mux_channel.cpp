@@ -45,25 +45,20 @@ static MuxChannelNode * create_channel_node(MuxPipe pipe)
 }
 
 
-/* Check if the channel / in_pin already occurs in the list */
-bool channel_in_list(MuxChannelList *list, MuxPipe pipe)
+/* Find a channel node in a list. Returns NULL if it is not in the list */
+MuxChannelNode * find_channel_node(MuxChannelList *list, int channel)
 {
     MuxChannelNode *node = list->head;
 
     while (NULL != node) {
-	if (pipe.channel == node->channel) {
-	    if (input_in_list(&node->inputs, pipe.in_pin)) {
-		return true;
-	    }
-	    else {
-		return false;
-	    }
+	if (channel == node->channel) {
+	    return node;
 	}
 
 	node = node->next;
     }
 
-    return false;
+    return NULL;
 }
 
 
@@ -75,14 +70,22 @@ void mux_channel_list_add(MuxChannelList *list, MuxPipe pipe)
 
 	list->head = node;
 	list->tail = node;
+
+	return;
     }
 
-    if (!channel_in_list(list, pipe)) {
-	/* Need to add the pipe's input to the list */
+    MuxChannelNode *node = find_channel_node(list, pipe.channel);
+
+    if (!node) {
+	/* Need to create a new channel node */
 	MuxChannelNode *node = create_channel_node(pipe);
 	
 	list->tail->next = node;
 	list->tail = node;
+    }
+    else {
+	/* Need to add our input to the channel node */
+	mux_input_list_add(&node->inputs, pipe.in_pin);
     }
 }
 
