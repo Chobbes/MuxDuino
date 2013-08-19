@@ -63,6 +63,7 @@ void unregister_pipe(MuxPipe pipe);
 
 void set_output_channel(int out_pin, int new_channel);
 
+
 /*
   This function loops through all of the pipes, and does the
   appropriate reads and writes.
