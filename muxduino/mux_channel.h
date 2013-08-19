@@ -26,6 +26,7 @@
 #define MUX_CHANNEL_H
 
 #include "mux_input.h"
+#include "mux_pipe.h"
 
 
 /*
