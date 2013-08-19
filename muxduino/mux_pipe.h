@@ -27,7 +27,8 @@
 
 /*
   Structure for a pin redirection. This represents a connection
-  between the input pin 'in_pin', and the output pin, 'out_pin'.
+  between the input pin 'in_pin', the output pin, 'out_pin', and the
+  channel.
 
   What we will do to make this pipe functional is read the digital
   value for the input, and then immediately write that value on the
@@ -37,6 +38,7 @@
 typedef struct MuxPipe {
     int in_pin;
     int out_pin;
+    int channel;
 } MuxPipe;
 
 #endif
