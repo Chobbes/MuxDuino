@@ -100,6 +100,6 @@ void mux_output_list_add(MuxOutputList *list, MuxPipe pipe);
 
  */
 
-void mux_output_list_remove(MuxChannelList *list, MuxPipe pipe);
+void mux_output_list_remove(MuxOutputList *list, MuxPipe pipe);
 
 #endif
