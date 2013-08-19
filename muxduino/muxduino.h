@@ -37,8 +37,11 @@
       pipe: The pipe we want to register with MuxDuino.
 
   Registers a pipe with the main pipe list for connections. This will
-  allocate some memory.
+  allocate some memory. This will also set the pin modes for the
+  in_pin and out_pin of the pipe.
+
  */
+
 int register_pipe(MuxPipe pipe);
 
 
@@ -48,6 +51,7 @@ int register_pipe(MuxPipe pipe);
 
   Removes a pipe from the main pipe list (does nothing if the pipe
   does not exist).
+
  */
 void unregister_pipe(MuxPipe pipe);
 
@@ -59,6 +63,7 @@ void unregister_pipe(MuxPipe pipe);
       new_channel: The new channel that we want to set.
 
   Changes the currently selected channel for the output.
+
  */
 
 void set_output_channel(int out_pin, int new_channel);
@@ -67,6 +72,7 @@ void set_output_channel(int out_pin, int new_channel);
 /*
   This function loops through all of the pipes, and does the
   appropriate reads and writes.
+
  */
 
 void mux_update();
