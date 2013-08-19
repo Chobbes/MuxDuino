@@ -48,7 +48,8 @@ typedef struct MuxOutputNode {
 
 
 /*
-  List of outputs. Head and tail will be NULL if empty, and the head will be
+  List of outputs. Head and tail will be NULL if empty, and the head
+  is the same as the tail if the list has one item.
  */
 
 typedef struct MuxOutputList {
