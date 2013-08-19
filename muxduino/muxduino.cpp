@@ -27,7 +27,7 @@
 #include "mux_output.h"
 #include "mux_channel.h"
 
-#include <Arduino.h>
+#include "Arduino.h"
 
 
 /* Main list for muxduino outputs -- starts empty */
@@ -44,7 +44,7 @@ int register_pipe(MuxPipe pipe)
     /* Check if our output is ever defined as an input */
     MuxOutputNode *out_node = mux_outs.head;
     while (out_node) {
-	MuxChannelNode *channel_node = out_node->channels->head;
+	MuxChannelNode *channel_node = out_node->channels.head;
 	while (channel_node) {
 	    if (!find_input_node(&channel_node->inputs, pipe.out_pin)) {
 		return 2;
@@ -74,7 +74,7 @@ void unregister_pipe(MuxPipe pipe)
 
 void set_output_channel(int out_pin, int new_channel)
 {
-    MuxOutputNode *node = find_output_node(&mux_outs, pipe.in_pin);
+    MuxOutputNode *node = find_output_node(&mux_outs, out_pin);
 
     node->channel_num = new_channel;
 
@@ -86,7 +86,7 @@ void set_output_channel(int out_pin, int new_channel)
 
 void mux_update()
 {
-    MuxOutputNode *out_node = mux_out.head;
+    MuxOutputNode *out_node = mux_outs.head;
 
     while (out_node) {
 	if (out_node->current_channel) {
