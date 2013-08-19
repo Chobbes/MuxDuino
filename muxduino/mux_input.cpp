@@ -38,20 +38,20 @@ static MuxInputNode * create_input_node(int in_pin)
 }
 
 
-/* Check if the in_pin already occurs in the list */
-bool input_in_list(MuxInputList *list, int in_pin)
+/* Find the input node for the in_pin. Returns NULL if it is not in the list */
+MuxInputNode * find_input_node(MuxInputList *list, int in_pin)
 {
     MuxInputNode *node = list->head;
 
     while (NULL != node) {
 	if (pipe.in_pin == node->in_pin) {
-	    return true;
+	    return node;
 	}
 
 	node = node->next;
     }
 
-    return false;
+    return NULL;
 }
 
 
@@ -65,7 +65,7 @@ void mux_input_list_add(MuxInputList *list, int in_pin)
 	list->tail = node;
     }
 
-    if (!input_in_list(list, in_pin)) {
+    if (!find_input_node(list, in_pin)) {
 	/* Need to add the pipe's input to the list */
 	MuxInputNode *node = create_input_node(in_pin);
 	
