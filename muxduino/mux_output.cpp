@@ -31,10 +31,10 @@
 /* Allocate an input node for a given pipe */
 static MuxOutputNode * create_output_node(MuxPipe pipe)
 {
-    MuxOutputNode *node = allocate_memory(sizeof(MuxOutputNode));
+    MuxOutputNode *node = (MuxOutputNode *) allocate_memory(sizeof(MuxOutputNode));
 
     node->out_pin = pipe.out_pin;
-    node->channel = pipe.channel;
+    node->channel_num = pipe.channel;
 
     /* Set up the channels list */
     node->channels.head = NULL;
@@ -81,7 +81,7 @@ void mux_output_list_add(MuxOutputList *list, MuxPipe pipe)
 
     if (!node) {
 	/* Output doesn't exist at all, make an output node. */
-	MuxChannelNode *node = create_output_node(pipe);
+	MuxOutputNode *node = create_output_node(pipe);
 	
 	list->tail->next = node;
 	list->tail = node;
@@ -89,19 +89,23 @@ void mux_output_list_add(MuxOutputList *list, MuxPipe pipe)
     else {
 	/* Need to add the channel / input to the output node! */
 	mux_channel_list_add(&node->channels, pipe);
+
+	/* Need to adjust the current channel */
+	node->current_channel = find_channel_node(&node->channels,
+						  node->channel_num);
     }
 }
 
 
-void mux_output_list_remove(MuxChannelList *list, MuxPipe pipe)
+void mux_output_list_remove(MuxOutputList *list, MuxPipe pipe)
 {
-    MuxChannelNode *current_node = list->head;
-    MuxChannelNode *previous_node = NULL;
+    MuxOutputNode *current_node = list->head;
+    MuxOutputNode *previous_node = NULL;
 
     /* Search list for our in_pin to remove it */
     while (NULL != current_node) {
 	int current_output = current_node->out_pin;
-	int channel_num = current_node->channel_num
+	int channel_num = current_node->channel_num;
 
 	if (current_output == pipe.out_pin) {
 	    mux_channel_list_remove(&current_node->channels, pipe);
