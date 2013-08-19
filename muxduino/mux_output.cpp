@@ -27,17 +27,6 @@
 #include "mux_channel.h"
 #include "mem_alloc.h"
 
-typedef struct MuxOutputNode {
-    int out_pin;
-
-    int channel_num;
-    MuxChannelNode *current_channel;
-
-    MuxChannelList channels;
-
-    struct MuxOutputNode *next;
-} MuxOutputNode;
-
 
 /* Allocate an input node for a given pipe */
 static MuxOutputNode * create_output_node(MuxPipe pipe)
@@ -60,7 +49,7 @@ static MuxOutputNode * create_output_node(MuxPipe pipe)
 
 
 /* Find an output node in a list, returns NULL if not found. */
-MuxOutputNode * find_output_node(MuxChannelList *list, int out_pin)
+MuxOutputNode * find_output_node(MuxOutputList *list, int out_pin)
 {
     MuxOutputNode *node = list->head;
 
@@ -76,29 +65,35 @@ MuxOutputNode * find_output_node(MuxChannelList *list, int out_pin)
 }
 
 
-void mux_output_list_add(MuxOutputList *list, MuxPipe pipe)`
+void mux_output_list_add(MuxOutputList *list, MuxPipe pipe)
 {
     if (NULL == list->head) {
         /* List is empty... */
-        MuxChannelNode *node = create_channel_node(pipe);
+        MuxOutputNode *node = create_output_node(pipe);
 
 	list->head = node;
 	list->tail = node;
 
 	return;
-    }
+    }    
 
-    if (!channel_in_list(list, pipe)) {
-	/* Need to add the pipe's input to the list */
-	MuxChannelNode *node = create_channel_node(pipe);
+    MuxOutputNode *node = find_output_node(list, pipe.out_pin);
+
+    if (!node) {
+	/* Output doesn't exist at all, make an output node. */
+	MuxChannelNode *node = create_output_node(pipe);
 	
 	list->tail->next = node;
 	list->tail = node;
     }
+    else {
+	/* Need to add the channel / input to the output node! */
+	mux_channel_list_add(&node->channels, pipe);
+    }
 }
 
 
-void mux_channel_list_remove(MuxChannelList *list, MuxPipe pipe)
+void mux_output_list_remove(MuxChannelList *list, MuxPipe pipe)
 {
     MuxChannelNode *current_node = list->head;
     MuxChannelNode *previous_node = NULL;
