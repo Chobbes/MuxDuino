@@ -29,7 +29,7 @@
 /* Allocate an input node for a given input pin */
 static MuxInputNode * create_input_node(int in_pin)
 {
-    MuxInputNode *node = allocate_memory(sizeof(MuxInputNode));
+    MuxInputNode *node = (MuxInputNode *) allocate_memory(sizeof(MuxInputNode));
 
     node->in_pin = in_pin;
     node->next = NULL;
@@ -44,7 +44,7 @@ MuxInputNode * find_input_node(MuxInputList *list, int in_pin)
     MuxInputNode *node = list->head;
 
     while (NULL != node) {
-	if (pipe.in_pin == node->in_pin) {
+	if (in_pin == node->in_pin) {
 	    return node;
 	}
 
@@ -86,7 +86,7 @@ void mux_input_list_remove(MuxInputList *list, int in_pin)
     while (NULL != current_node) {
 	int current_in_pin = current_node->in_pin;
 
-	if (current_in_pipe == in_pin) {
+	if (current_in_pin == in_pin) {
 	    /* Found the input in the list! Remove it... */
 	    if (NULL != previous_node) {
 		previous_node->next = current_node->next;
