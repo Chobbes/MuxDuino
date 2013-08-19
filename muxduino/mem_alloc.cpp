@@ -23,6 +23,8 @@
 */
 
 #include "mem_alloc.h"
+#include <stdlib.h>
+
 
 /* If true count allocations and frees, else don't */
 const static bool count_allocs = true;
