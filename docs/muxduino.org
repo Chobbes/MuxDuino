@@ -159,17 +159,19 @@
 
 *** Output List
     The top level data structure which MuxDuino deals with is the
-    output list. This list contains structures like the following:
+    output list. This list contains nodes like the following:
 
     #+BEGIN_SRC c
-      typedef struct MuxOutput {
+      typedef struct MuxOutputNode {
           int out_pin;
       
           int channel_num;
           MuxChannelNode *current_channel;
       
           ChannelList channels;
-      } MuxOutput;
+      
+          struct MuxOutputNode *next;
+      } MuxOutputNode;
     #+END_SRC
 
     Where *out_pin* is the output pin, *current_channel* is a pointer
