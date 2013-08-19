@@ -37,7 +37,7 @@ static MuxOutputList mux_outs = {NULL, NULL};
 int register_pipe(MuxPipe pipe)
 {
     /* Check if our input was previously registered as an output */
-    if (!find_output_node(&mux_outs, pipe.in_pin)) {
+    if (find_output_node(&mux_outs, pipe.in_pin)) {
 	return 1;
     }
 
@@ -46,7 +46,7 @@ int register_pipe(MuxPipe pipe)
     while (out_node) {
 	MuxChannelNode *channel_node = out_node->channels.head;
 	while (channel_node) {
-	    if (!find_input_node(&channel_node->inputs, pipe.out_pin)) {
+	    if (find_input_node(&channel_node->inputs, pipe.out_pin)) {
 		return 2;
 	    }
 
@@ -87,20 +87,23 @@ void set_output_channel(int out_pin, int new_channel)
 void mux_update()
 {
     MuxOutputNode *out_node = mux_outs.head;
-
     while (out_node) {
+	MuxChannelNode *current_channel = out_node->current_channel;
+
 	if (out_node->current_channel) {
-	    MuxInputNode *in_node = out_node->current_channel->inputs.head;
+	    MuxInputNode *in_node = current_channel->inputs.head;
+
 	    while (in_node) {
 		if (HIGH == digitalRead(in_node->in_pin)) {
 		    digitalWrite(out_node->out_pin, HIGH);
-		    return;
+		    break;
+		}
+		else if (NULL == in_node->next) {
+		    digitalWrite(out_node->out_pin, LOW);
 		}
 
 		in_node = in_node->next;
 	    }
-
-	    digitalWrite(out_node->out_pin, LOW);
 	}
 
 	out_node = out_node->next;
