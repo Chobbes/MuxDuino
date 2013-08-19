@@ -63,6 +63,8 @@ void mux_input_list_add(MuxInputList *list, int in_pin)
 
 	list->head = node;
 	list->tail = node;
+
+	return;
     }
 
     if (!find_input_node(list, in_pin)) {
