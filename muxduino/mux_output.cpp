@@ -100,32 +100,35 @@ void mux_output_list_remove(MuxChannelList *list, MuxPipe pipe)
 
     /* Search list for our in_pin to remove it */
     while (NULL != current_node) {
-	int current_channel = current_node->channel;
+	int current_output = current_node->out_pin;
+	int channel_num = current_node->channel_num
 
-	if (current_channel == pipe.channel) {
-	    if (input_in_list(&current_node->inputs, pipe.in_pin)) {
-		mux_input_list_remove(&current_node->inputs, pip.in_pin);
+	if (current_output == pipe.out_pin) {
+	    mux_channel_list_remove(&current_node->channels, pipe);
 
-		if (NULL == current_node->inputs.head) {
-		    /* No more inputs, need to remove this channel */
-		    if (NULL != previous_node) {
-			previous_node->next = current_node->next;
-		    }
+	    /* Need to adjust the current channel */
+	    current_node->current_channel = find_channel_node(&current_node->channels,
+							      channel_num);
 
-		    /* Adjust the head and tail if necessary */
-		    if (current_node == list->head) {
-			list->head = list->head->next;
-		    }
-
-		    if (current_node == list->tail) {
-			list->tail = previous_node;
-		    }
-
-		    free_memory(current_node);
+	    if (NULL == current_node->channels.head) {
+		/* No more channels, need to remove this output */
+		if (NULL != previous_node) {
+		    previous_node->next = current_node->next;
+		}
+		
+		/* Adjust the head and tail if necessary */
+		if (current_node == list->head) {
+		    list->head = list->head->next;
+		}
+		
+		if (current_node == list->tail) {
+		    list->tail = previous_node;
 		}
 
-		return;
+		free_memory(current_node);
 	    }
+
+	    return;
 	}
 
 	previous_node = current_node;
