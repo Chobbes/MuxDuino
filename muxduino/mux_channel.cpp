@@ -22,6 +22,7 @@
 
 */
 
+#include "mux_channel.h"
 #include "mux_pipe.h"
 #include "mux_input.h"
 #include "mem_alloc.h"
@@ -30,7 +31,7 @@
 /* Allocate an input node for a given a pipe */
 static MuxChannelNode * create_channel_node(MuxPipe pipe)
 {
-    MuxChannelNode *node = allocate_memory(sizeof(MuxChannelNode));
+    MuxChannelNode *node = (MuxChannelNode *) allocate_memory(sizeof(MuxChannelNode));
 
     node->channel = pipe.channel;
 
@@ -100,7 +101,7 @@ void mux_channel_list_remove(MuxChannelList *list, MuxPipe pipe)
 	int current_channel = current_node->channel;
 
 	if (current_channel == pipe.channel) {
-	    mux_input_list_remove(&current_node->inputs, pip.in_pin);
+	    mux_input_list_remove(&current_node->inputs, pipe.in_pin);
 
 	    if (NULL == current_node->inputs.head) {
 		/* No more inputs, need to remove this channel */
