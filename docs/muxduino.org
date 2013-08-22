@@ -78,13 +78,19 @@
    The channel for the output will be set to the channel of the first
    registered pipe with that output.
 
-   This function will return 0 on success, and 1 otherwise. The
-   function will fail, and return 1, if you try to register an input
-   that has already been defined as an output, an output that has
-   already been defined as an input, or a pipe with identical input
-   and output pins. This function will set the pin mode for the pins
-   as designated. Also note that this function may allocate some
-   memory. Duplicated pipes don't change anything.
+   This function will return 0 on success, and non-zero otherwise. The
+   function will fail for a couple of reasons. If you try to register
+   a pipe with identical input and output pins this is considered an
+   error and a value of 1 will be returned. If a pipe is registered
+   with an input that was previously declared as an output then 2 will
+   be returned. If the pipe has an output that was previously declared
+   to be an input then 3 will be returned. These are checked in this
+   order - multiple problems can occur, but only the first one seen
+   will be reflected in the error code.
+
+   This function will set the pin mode for the pins as
+   designated. Also note that this function may allocate some
+   memory. Duplicated pipes won't change anything, though.
 
 ** Removing a Pipe
    It's possible that you may want to remove a pipe from the MuxDuino
