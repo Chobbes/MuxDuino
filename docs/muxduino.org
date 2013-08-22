@@ -142,6 +142,29 @@
    the outputs are to be updated, so it's best to put this in some
    kind of loop.
 
+   There is also another version of this function...
+
+   #+BEGIN_SRC c
+     void mux_update_serial_debug();
+   #+END_SRC
+
+   Which you may use if the serial pins (usually pin 0 and 1) on the
+   Arduino are free for use, and the serial port has been set up. This
+   version of update sends some debugging information over the serial
+   port whenever an output is written to. These messages take the form
+   of:
+
+   #+BEGIN_EXAMPLE
+     Writing HIGH from channel <channel number>: <in pin> -> <out pin>
+   #+END_EXAMPLE
+
+   Where *<in pin>* is the first input pin to have a value of *HIGH*
+   in the channel. And also:
+
+   #+BEGIN_EXAMPLE
+        Writing LOW from channel <channel number>: <out pin>
+   #+END_EXAMPLE
+
 * Implementation
   This section notes some of the details on how the current
   implementation of MuxDuino works. There will be some discussion
