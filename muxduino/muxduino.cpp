@@ -36,9 +36,14 @@ static MuxOutputList mux_outs = {NULL, NULL};
 
 int register_pipe(MuxPipe pipe)
 {
+    /* Check if input / output are the same */
+    if (pipe.in_pin == pipe.out_pin) {
+	return 1;
+    }
+
     /* Check if our input was previously registered as an output */
     if (find_output_node(&mux_outs, pipe.in_pin)) {
-	return 1;
+	return 2;
     }
 
     /* Check if our output is ever defined as an input */
@@ -47,7 +52,7 @@ int register_pipe(MuxPipe pipe)
 	MuxChannelNode *channel_node = out_node->channels.head;
 	while (channel_node) {
 	    if (find_input_node(&channel_node->inputs, pipe.out_pin)) {
-		return 2;
+		return 3;
 	    }
 
 	    channel_node = channel_node->next;
