@@ -115,3 +115,45 @@ void mux_update()
     }
 }
 
+
+/*
+  Same as mux_update(), but will do some Serial.print calls for
+  debugging information
+*/
+void mux_update_serial_debug()
+{
+    MuxOutputNode *out_node = mux_outs.head;
+    while (out_node) {
+	MuxChannelNode *current_channel = out_node->current_channel;
+
+	if (out_node->current_channel) {
+	    MuxInputNode *in_node = current_channel->inputs.head;
+
+	    while (in_node) {
+		if (HIGH == digitalRead(in_node->in_pin)) {
+		    Serial.print("Writing HIGH from channel ");
+		    Serial.print(out_node->channel_num);
+		    Serial.print(": ");
+		    Serial.print(in_node->in_pin);
+		    Serial.print(" -> ");
+		    Serial.println(out_node->out_pin);
+
+		    digitalWrite(out_node->out_pin, HIGH);
+		    break;
+		}
+		else if (NULL == in_node->next) {
+		    Serial.print("Writing LOW from channel ");
+		    Serial.print(out_node->channel_num);
+		    Serial.print(": ");
+		    Serial.println(out_node->out_pin);
+
+		    digitalWrite(out_node->out_pin, LOW);
+		}
+
+		in_node = in_node->next;
+	    }
+	}
+
+	out_node = out_node->next;
+    }
+}
