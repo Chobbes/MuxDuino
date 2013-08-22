@@ -83,4 +83,15 @@ void set_output_channel(int out_pin, int new_channel);
 
 void mux_update();
 
+
+/*
+  Same as mux_update(), except that additional information will be
+  printed to Serial. Make sure the Serial pins are free on your
+  Arduino, and that no pipes are registered with them as inputs /
+  outputs! These are usually pins 0 and 1.
+
+ */
+
+void mux_update_serial_debug();
+
 #endif
