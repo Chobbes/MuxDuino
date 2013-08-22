@@ -158,8 +158,8 @@
      Writing HIGH from channel <channel number>: <in pin> -> <out pin>
    #+END_EXAMPLE
 
-   Where *<in pin>* is the first input pin to have a value of *HIGH*
-   in the channel. And also:
+   Where *<in pin>* is the first input pin read in the channel to have
+   a value of *HIGH* channel. And also:
 
    #+BEGIN_EXAMPLE
         Writing LOW from channel <channel number>: <out pin>
